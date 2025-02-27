@@ -15,16 +15,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
 
+//
+// app.use(cors({
+//     origin: 'https://lebaba-frontend-final.vercel.app',
+//     credentials: true
+// }))
+
 
 app.use(cors({
-    origin: 'https://lebaba-frontend-final.vercel.app',
+    origin: ['https://lebaba-frontend-final.vercel.app', 'http://localhost:5173'],
     credentials: true
-}))
+}));
 
 
 
 
-// image upload 
+
+// image upload
 const uploadImage = require("./src/utils/uploadImage")
 
 // all routes
@@ -43,24 +50,24 @@ app.use('/api/stats', statsRoutes)
 
 
 main()
-  .then(() => console.log("mongodb is successfully connected."))
-  .catch((err) => console.log(err));
+    .then(() => console.log("mongodb is successfully connected."))
+    .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(process.env.DB_URL);
+    await mongoose.connect(process.env.DB_URL);
 
 
     app.get("/", (req, res) => {
-    res.send("Lebaba E-commerce Server is running....!");
-  });
+        res.send(" E-commerce Server is running....!");
+    });
 }
 
 app.post("/uploadImage", (req, res) => {
-  uploadImage(req.body.image)
-    .then((url) => res.send(url))
-    .catch((err) => res.status(500).send(err));
+    uploadImage(req.body.image)
+        .then((url) => res.send(url))
+        .catch((err) => res.status(500).send(err));
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
